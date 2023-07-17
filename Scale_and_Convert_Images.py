@@ -5,32 +5,28 @@ import sys
 import glob
 from PIL import Image
 
-# The source folder should be passed as a command line argument when calling this python script
-# folder = os.fsencode(sys.argv[1])
-# folder = sys.argv[1]
+# Source of the images to be converted
+src = "./images/"
+# Destination directory for the images after conversion
+dst = "./opt/icons/"
+# Size to resize the images to
+size = (128, 128)
+# Path of the source images
+imgs = os.listdir(src)
 
 def pic_converter():
-    #print(sys.argv[1])
     # Counter for how many pictures have been processed
     counter = 0
-    #print(os.path.abspath(folder))
+
     # Iterate over pictures in folder
-    for file in glob.glob("~/images/*", recursive=True):
-        # Open each picture being iterated over
-        #print(str(file))
-        #filename = os.fsdecode(file)
-        print("Processing image number {}, {}".format(counter + 1, file))
-        im = Image.open(file)
-
-        # Rotate image 90 deg clockwise --trying it all in one line below
-
-        # Resize image from 192x192 to 128x128 --trying it all in one line below
-
-        # Save the image to a new folder in .jpeg format...folder should be /opt/icons/
-        im.rotate(270).resize(128,128).save("/opt/icons/" + filename, "JPEG")
-
-        # Increment the counter
-        counter += 1
+    for img  in imgs:
+        try:
+            with Image.open(src + img) as im:
+                im.resize(size).rotate(-90).save(dst + img, 'JPEG')
+                # Increment the counter
+                counter += 1
+        except OSError:
+            print("Cannot convert" + img)
 
     # Print the total amount of pictures processed
     print("{} pictures rotated 90 degrees clockwise, resized to 128x128 and saved in /opt/icons/".format(counter))
