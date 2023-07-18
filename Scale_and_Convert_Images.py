@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
 import os
-import sys
-import glob
 from PIL import Image
 
 # Source of the images to be converted
